@@ -1,0 +1,200 @@
+---
+title: "LHPRISM Exploratory Analysis"
+format: docx
+editor: visual
+---
+
+## Overview
+
+This document goes through various exploratory analyses of the LHPRISM post-treatment invasive species survey data set.
+
+## Data cleaning
+
+This step was completed using OpenRefine. The JSON code for all steps can be found in the file `data/lhprism_openrefine_cleaning.json`. The key data cleaning steps and assumptions taken are listed below.
+
+-   LIST KEY DATA CLEANING STEPS AND ASSUMPTIONS
+-   MAKE SURE TO POINT OUT ASSUMPTIONS ASSOCIATED WITH PERCENTAGE CATEGORIES
+
+## Reading in the data
+
+The data are provide to us as an Excel file with multiple sheets. We are most interested in the sheet named "Visits". We will use the `readxl` package to read in the data into our work environment. But first, we will use the `pacman` package to load, and install if needed, any other packages. If this is the first time you are using `pacman`, remember that you first need to install this package.
+
+```{r}
+## Get packages
+library(pacman)
+pacman::p_load(here, tidyverse, janitor, lubridate)
+
+## Get the project level directory path
+proj_path <- here()
+
+## Define a color blind friendly palette
+## These are from - http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
+# The palette with grey:
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+# The palette with black:
+cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+```
+
+In this code chunk, we will read in the data file. You may have to edit this call, depending on where you have saved your version of the Excel file.
+
+```{r}
+## Read in the data file
+lhprism_data <- read_csv(paste0(proj_path, "/data/LHPRISM-Data.csv"), 
+    col_types = cols(`iMap Treat` = col_number())) %>%
+  clean_names()
+
+## Edit the order of levels for some of the variables
+lhprism_data <- lhprism_data %>%
+  mutate(native = factor(native, levels = c("low", "medium", "high")),
+         non_nat = factor(non_nat, levels = c("low", "medium", "high")))
+
+```
+
+## Figures
+
+Let's see if we can make a figure showing the relationships between native vs non-native coverage
+
+```{r}
+lhprism_data %>%
+  filter(!is.na(native)) %>%
+  ggplot(data = ., aes(x = native)) +
+  coord_cartesian(ylim = c(0, 400)) +
+  geom_bar()
+
+lhprism_data %>%
+  filter(!is.na(non_nat)) %>%
+  ggplot(data = ., aes(x = non_nat)) +
+  coord_cartesian(ylim = c(0, 400)) +
+  geom_bar()
+```
+
+Let's try to make a more complex plot.
+
+```{r}
+lh_sub <- lhprism_data %>%
+  select(native, non_nat)
+
+lh_sub_long <- 
+  data.frame(native_vs_nonnative = rep(c("native", "non_nat"), each = 3303),
+             coverage = c(lh_sub$native, lh_sub$non_nat))
+
+lh_sub_long %>%
+  filter(!is.na(coverage)) %>%
+  ggplot(., aes(x = coverage, fill = native_vs_nonnative)) +
+  geom_bar(position = "dodge") +
+  scale_fill_manual(values = cbPalette) +
+  theme_minimal()
+```
+
+Let's make a table that goes along with this.
+
+```{r}
+native_vs_nonnative_cover <-
+  lhprism_data %>% 
+  group_by(native, non_nat) %>%
+  count() %>%
+  filter(!is.na(native)) %>%
+  pivot_wider(names_from = non_nat, values_from = n, values_fill = 0)
+
+native_vs_nonnative_cover
+
+native_vs_nonnative_cover_chisq <-
+  chisq.test(native_vs_nonnative_cover[2:4])
+
+native_vs_nonnative_cover_chisq
+native_vs_nonnative_cover_chisq$residuals
+```
+
+```{r}
+ggplot(data = lhprism_data, aes(x = visit_date)) +
+  geom_histogram()
+```
+
+You can add options to executable code like this
+
+```{r}
+ggplot(data = lhprism_data, aes(x = pu_count)) +
+  geom_histogram()
+```
+
+## Tables
+
+Let's make some tables.
+
+```{r}
+#| label: tables
+
+lhprism_data %>%
+  group_by(visit_status_char) %>%
+  count() %>%
+  filter(!is.na(visit_status_char)) %>%
+  arrange(desc(n)) %>%
+  rename(tot_count = n)
+
+lhprism_data %>%
+  group_by(visit_status_num) %>%
+  count() 
+
+lhprism_data %>%
+  group_by(percent_treated) %>%
+  count()
+
+lhprism_data %>%
+  group_by(distribution) %>%
+  count()
+
+
+# get new species code
+lhprism_data$species_code <- str_extract(lhprism_data$site_code, "(?<=_)[^_]+(?=_)") 
+
+# What about different years?
+# Commented this so it doesn't print out a bunch of years in our html doc
+#lubridate::year(lhprism_data$visit_date)
+
+month(lhprism_data$visit_date) %>%
+  table()
+
+lhprism_data %>%
+  count(month(visit_date, label = TRUE)) %>%
+  filter(!is.na(`month(visit_date, label = TRUE)`)) %>%
+  rename(Month = `month(visit_date, label = TRUE)`) %>%
+  ggplot(data = ., aes(x = Month, y = n)) +
+  geom_bar(stat = "identity")
+```
+
+
+```{r, results='hide'}
+day(lhprism_data$visit_date)
+```
+
+
+```{r}
+lhprism_data %>%
+  group_by(species_code) %>%
+  count() %>%
+  arrange(desc(n))
+```
+
+What's the total amount of herbicides used?
+
+```{r}
+herb_type_tbl <- 
+  lhprism_data %>% 
+  filter(!is.na(herbicide_name)) %>%
+  group_by(herbicide_name) %>%
+  count() %>%
+  arrange(desc(n)) %>%
+  rename(`Herbicide Type` = herbicide_name, `Total Count` = n)
+knitr::kable(herb_type_tbl, caption = "Counts for herbicide types used")
+
+lhprism_data %>% 
+  filter(!is.na(herbicide_name)) %>%
+  group_by(herbicide_name, product_units) %>%
+  summarise(total_herb_vol = sum(amt_of_product, na.rm = TRUE)) %>%
+  arrange(desc(total_herb_vol))
+```
+
+```{r}
+
+
+```
