@@ -32,6 +32,10 @@ Project overview. Written by all participants.
     -   Number of records per location
     -   Number of species per location
     -   Some summary of coverage percentages?
+-   Will use Leaflet to create maps in R
+    -   Map of all property locations using long and lat data in the Populations tab
+        -   Density map could reveal which areas are most treated
+    -   Map of all treatments, color-coded by species
 
 ## Analysis of time / treatment effort required to eradication
 
