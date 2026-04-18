@@ -16,6 +16,9 @@ Project overview. Written by all participants.
 
 ## Region of study
 
+-   Information about the Lower Hudson region (as defined by LHPRISM)
+-   Discussion of the climate and ecology of the region
+
 -   Location
 
     -Southeastern New York (Westchester, Rockland, Putnam, Orange, parts of NYC)
@@ -45,9 +48,26 @@ Project overview. Written by all participants.
 ## Overview of the LHPRISM data set
 
 -   Description of the data set and its contents
+    -   An environmental monitoring dataset from the Lower Hudson Partnership for Regional Invasive Species Management focused on invasive species treatment in the Hudson Valley.
+
+    -   What each record represents: A plot or site where invasive species were identified, treated, and monitored over time (3-year follow-up).
+
+    -   Key variables: Location info ( site, participant) species present (abundance/cover) treatment type (chemical/method used) treatment timing (initial + follow-ups) monitoring outcomes (change in invasive presence over time) Missing/NULL values (HUGE PROBLEM WHAT TO SAY ABOUT MISSING DATA ITS EVERYWHERE)
 -   Description of data collection methods (will require communication with LHPRISM staff)
+    -   Field surveys conducted at designated plots, identification of invasive species and estimation of their abundance, application of treatment, follow up monitoring intervals (yearly for 3 years)
+
+    -   NEED to zoom with Brent (whether plots are randomly selected or targeted, this matters a lot, whether measurement methods are standardized)
+
+    -   More questions: what defines a “plot”, [**what do NULL values represent**]{.underline} ,monitoring consistency? known biases (sites chosen because they were heavily bad)
 -   Summary statistics and figures about major components of the data set (e.g., number of records, number of species, etc.)
+    -   Total number of rows, number of unique plots, number of invasive species tracked number of treatment types, time span
+
+    -   Figures? Histogram of number of species, count of treatments applied
+
+    -   [**Missing data visualizatio**n]{.underline}
 -   Should we put analyses of correlations and relationships among the variables in this section?
+    -   No, this is what data do we have not what does it tell us or what can we glean, **MISSSING DATA**
+
 
 ## Spatial distribution of the data
 
@@ -64,7 +84,11 @@ Project overview. Written by all participants.
 
 -   This will be done on a subset of species
     -   How did we choose these species?
-        -   accelerated growth, previous exploratory analysis file
+    -   Brief overview of ecology of these particular species
+-   Description of the methods used in this analysis
+-   Description of the results of this analysis
+
+    -   accelerated growth, previous exploratory analysis file
             -   HEMA17 - Giant Hogweed
             -   PUMO - Kudzu
             -   CYSC4 - Scotch Broom
