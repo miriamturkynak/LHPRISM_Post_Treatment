@@ -64,7 +64,6 @@ PRISMs carry out many important tasks, including:
 
 -   Providing education and outreach to communities
 
-```         
 Since 2013, the DEC has contracted organizations to run all eight PRISMs across the state.
 
 PRISMs deliver:
@@ -90,7 +89,6 @@ The **Lower Hudson PRISM (LHPRISM)** covers the Lower Hudson Valley. It uses tra
 
 
 [https://nyis.info/wp-content/uploads/2024/08/prism-factsheet1.pdf](%0dhttps:/nyis.info/wp-content/uploads/2024/08/prism-factsheet1.pdf)
-```
 
 -   **Information and background on the NYS Invasive Species lists**
 
@@ -112,10 +110,10 @@ The **Lower Hudson PRISM (LHPRISM)** covers the Lower Hudson Valley. It uses tra
 
     <https://www.nynhp.org/invasives/species-tiers-table/>
 
-
 ## Region of study
 
 -   Information about the Lower Hudson region (as defined by LHPRISM)
+
 -   Discussion of the climate and ecology of the region
 
 -   Location
@@ -167,7 +165,6 @@ The **Lower Hudson PRISM (LHPRISM)** covers the Lower Hudson Valley. It uses tra
 -   Should we put analyses of correlations and relationships among the variables in this section?
     -   No, this is what data do we have not what does it tell us or what can we glean, **MISSSING DATA**
 
-
 ## Spatial distribution of the data
 
 -   Maps of the various locations and some relevant summary information
@@ -182,17 +179,15 @@ The **Lower Hudson PRISM (LHPRISM)** covers the Lower Hudson Valley. It uses tra
 ## Analysis of time / treatment effort required to eradication
 
 -   This will be done on a subset of species
+
     -   How did we choose these species?
     -   Brief overview of ecology of these particular species
+
 -   Description of the methods used in this analysis
+
 -   Description of the results of this analysis
 
-    -   accelerated growth, previous exploratory analysis file
-            -   HEMA17 - Giant Hogweed
-            -   PUMO - Kudzu
-            -   CYSC4 - Scotch Broom
-            -   SAGL12 - Sticky Sage
-                -   CYSC4, SAGL12, LECU, PLEIO, POPE10, RULA, AREL8, HEMA17, ACAR10, VISI, COIN21, PUMO, ARIT, ILCR2, PHVI81, SYPA12, VIDI80, COKO2, PHVI81, SYPA12, AKQU, AREL8, SPJA, WISI, PHVI81, BRPA4, MISI, RAFIB, BRSY, HUJA, HEHE, FRAL4, WISTE - ALL EXTERMINATED
+    -   accelerated growth, previous exploratory analysis file - HEMA17 - Giant Hogweed - PUMO - Kudzu - CYSC4 - Scotch Broom - SAGL12 - Sticky Sage - CYSC4, SAGL12, LECU, PLEIO, POPE10, RULA, AREL8, HEMA17, ACAR10, VISI, COIN21, PUMO, ARIT, ILCR2, PHVI81, SYPA12, VIDI80, COKO2, PHVI81, SYPA12, AKQU, AREL8, SPJA, WISI, PHVI81, BRPA4, MISI, RAFIB, BRSY, HUJA, HEHE, FRAL4, WISTE - ALL EXTERMINATED
     -   Brief overview of ecology of these particular species (add known methods of treatment, previous recommendation)
         -   HEMA17 - Giant Hogweed (Heracleum mantegazzianum)
             -   native to Eastern Europe/Western Asia, highly invasive in NE USA
@@ -225,12 +220,16 @@ The **Lower Hudson PRISM (LHPRISM)** covers the Lower Hudson Valley. It uses tra
             -   perennial herb, blooms late summer
             -   low ecological impact, coexists with native species
             -   known treatment: handpulling for young pop
+
 -   Description of the methods used in this analysis
+
     -   change in total plant count over consecutive visits
     -   visit_date \* visit_status_num
     -   maybe see if there are any patterns when sorting by herbicide?
     -   how many times did they need to visit a plot before eradication: look at total number of visits, and population numbers
+
 -   Description of the results of this analysis
+
     -   HEMA17
 
         ```{r}
