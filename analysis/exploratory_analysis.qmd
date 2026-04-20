@@ -169,7 +169,6 @@ lhprism_data %>%
   geom_bar(stat = "identity")
 ```
 
-
 ```{r}
 lhprism_data %>%
   group_by(species_code) %>%
@@ -207,4 +206,3 @@ lhprism_data %>%
   ) %>%
   arrange(desc(total_visits))
 ```
-
