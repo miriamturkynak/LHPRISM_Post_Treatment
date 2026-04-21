@@ -22,9 +22,16 @@ Project overview. Written by all participants.
 ## Overview of the LHPRISM data set - Tommy and Mimi
 
 -   Description of the data set and its contents
+
 -   Description of data collection methods (will require communication with LHPRISM staff)
+
 -   Summary statistics and figures about major components of the data set (e.g., number of records, number of species, etc.)
+
 -   Should we put analyses of correlations and relationships among the variables in this section?
+
+We want to ask about the data collection methods; Is there any written document for data collection procedures? If not, our goal in communicating with LHPRISM staff is to get a detailed description of the procedure. What were the standards and criteria for the data columns? We would also like to confirm all of the variable definitions in our metadata, especially those we highlighted.
+
+For the statistics, we'd like to go back into what the class created for summary stats and reanalyze whether or not they would be good to include in the final report. This would be the appropriate time to take a brief look at trends and similarly analyze if anything stands out enough to add to the report. This might require some communication with the other teams to discuss which direction their analysis is going.
 
 ## Spatial distribution of the data - Simon and Jillian
 
