@@ -223,9 +223,22 @@ The **Lower Hudson PRISM (LHPRISM)** covers the Lower Hudson Valley. It uses tra
 
 -   Description of the methods used in this analysis
 
-    -   change in total plant count over consecutive visits
+    -   change in plant count over consecutive visits
+
     -   visit_date \* visit_status_num
+
+        ```{r}
+        ##created a table to see how long does it take each species to move from one status to the next, sorting by site
+        status_timing <- lhprism_data %>%
+          group_by(species_code, site, visit_status_num) %>%
+          summarise(first_date = min(visit_date), .groups = "drop") %>%
+          arrange(species_code, site, visit_status_num)
+
+        ##this does not account for status relapses (yet) as it only searches for the earliest date that each visit_status_num was recorded
+        ```
+
     -   maybe see if there are any patterns when sorting by herbicide/treatment method?
+
     -   how many times did they need to visit a plot before eradication: look at total number of visits, and population numbers
 
 -   Description of the results of this analysis
