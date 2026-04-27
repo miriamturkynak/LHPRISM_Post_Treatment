@@ -244,8 +244,12 @@ The **Lower Hudson PRISM (LHPRISM)** covers the Lower Hudson Valley. It uses tra
         hogweed_pop <- lhprism_data %>%
           filter(species_code == "HEMA17") %>%
           arrange(site, desc(plant_count)) %>%
-          select(site, visit_date, visit_status_num, plant_count)
+          select(site, visit_date, visit_status_num, plant_count, gross_treat_sqft)
 
+        #plotting visit_status_num across time
+        ggplot(data = hogweed_population, aes(x = visit_date, y = visit_status_num, fill = site)) +
+          geom_line() +
+          theme_minimal()
         ```
 
         ```{r}
