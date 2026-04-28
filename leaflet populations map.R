@@ -33,8 +33,8 @@ locations_lat[234] <- 40.975937
 df <- data.frame(name = locations_names,
                  lat = locations_lat,
                  lng = locations_lng)
-
-leaflet() %>%
+m <- leaflet()
+m %>%
   addTiles() %>%
-  addMarkers(data = df) 
+  addMarkers(data = df, popup = locations_names)
 
