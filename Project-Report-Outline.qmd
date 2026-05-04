@@ -194,6 +194,7 @@ The Lower Hudson region presents an ideal study area for analyzing invasive spec
 -   This will be done on a subset of species
 
     -   How did we choose these species?
+        -   these species were chosen in part because LHPRISM believes eradication is possible and for some of these species like Giant Hogweed, specific traits that are hazardous to humans were also taken into account.
     -   Brief overview of ecology of these particular species
 
 -   Description of the methods used in this analysis
@@ -255,6 +256,9 @@ The Lower Hudson region presents an ideal study area for analyzing invasive spec
     -   how many times did they need to visit a plot before eradication: look at total number of visits, and population numbers
 
         ```{r}
+        library(dplyr)
+        library(ggplot2)
+
         ##HEMA17 population by site and visit_status_num
         hogweed_pop <- lhprism_data %>%
           filter(species_code == "HEMA17") %>%
@@ -262,17 +266,32 @@ The Lower Hudson region presents an ideal study area for analyzing invasive spec
           select(site, visit_date, visit_status_num, plant_count, gross_treat_sqft)
 
         #plotting visit_status_num across time
-        ggplot(data = hogweed_population, aes(x = visit_date, y = visit_status_num, fill = site)) +
+        ggplot(data = hogweed_pop, aes(x = visit_date, y = visit_status_num, color = site)) +
           geom_line() +
-          theme_minimal()
+          theme_minimal() +
+          facet_wrap(~site) +
+          theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+          theme(axis.text.y = element_text(size = 5))
         ```
 
         ```{r}
-        ##KUDO population by site and visit_status_num
+        ##PUMO population by site and visit_status_num
         jknotweed_pop <- lhprism_data %>%
-          filter(species_code == "KUDO") %>%
+          filter(species_code == "PUMO") %>%
           arrange(site, desc(plant_count)) %>%
-          select(site, visit_date, visit_status_num, plant_count)
+          select(site, visit_date, visit_status_num, plant_count, gross_treat_sqft)
+
+        #PUMO visit_status_num over time
+        ggplot(data = jknotweed_pop, aes(x = visit_date, y = visit_status_num, color = site)) +
+          geom_line() +
+          theme_minimal() +
+          facet_wrap(~site) +
+          theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+          theme(axis.text.y = element_text(size = 5))
+
+        ##plant_count at each status level
+        ##days/visits until new status, also days until relapse?
+          
         ```
 
         ```{r}
@@ -281,6 +300,14 @@ The Lower Hudson region presents an ideal study area for analyzing invasive spec
           filter(species_code == "CYSC4") %>%
           arrange(site, desc(plant_count)) %>%
           select(site, visit_date, visit_status_num, plant_count)
+
+        #CYSC4 visit_status_num over time
+        ggplot(data = scotchbroom_pop, aes(x = visit_date, y = visit_status_num, color = site)) +
+          geom_line() +
+          theme_minimal() +
+          facet_wrap(~site) +
+          theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+          theme(axis.text.y = element_text(size = 5))
         ```
 
         ```{r}
@@ -289,6 +316,14 @@ The Lower Hudson region presents an ideal study area for analyzing invasive spec
           filter(species_code == "SAGL12") %>%
           arrange(site, desc(plant_count)) %>%
           select(site, visit_date, visit_status_num, plant_count)
+
+        #PUMO visit_status_num over time
+        ggplot(data = stickysage_pop, aes(x = visit_date, y = visit_status_num, color = site)) +
+          geom_line() +
+          theme_minimal() +
+          facet_wrap(~site) +
+          theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+          theme(axis.text.y = element_text(size = 5))
         ```
 
 -   Description of the results of this analysis
