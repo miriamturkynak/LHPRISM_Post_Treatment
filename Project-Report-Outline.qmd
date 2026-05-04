@@ -270,8 +270,9 @@ The Lower Hudson region presents an ideal study area for analyzing invasive spec
           geom_line() +
           theme_minimal() +
           facet_wrap(~site) +
-          theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-          theme(axis.text.y = element_text(size = 5))
+          theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 5)) +
+          theme(axis.text.y = element_text(size = 5)) +
+          scale_y_reverse()
         ```
 
         ```{r}
@@ -286,8 +287,9 @@ The Lower Hudson region presents an ideal study area for analyzing invasive spec
           geom_line() +
           theme_minimal() +
           facet_wrap(~site) +
-          theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-          theme(axis.text.y = element_text(size = 5))
+          theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 5)) +
+          theme(axis.text.y = element_text(size = 5)) +
+          scale_y_reverse()
 
         ##plant_count at each status level
         ##days/visits until new status, also days until relapse?
@@ -306,8 +308,9 @@ The Lower Hudson region presents an ideal study area for analyzing invasive spec
           geom_line() +
           theme_minimal() +
           facet_wrap(~site) +
-          theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-          theme(axis.text.y = element_text(size = 5))
+          theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 5)) +
+          theme(axis.text.y = element_text(size = 5)) +
+          scale_y_reverse()
         ```
 
         ```{r}
@@ -322,8 +325,9 @@ The Lower Hudson region presents an ideal study area for analyzing invasive spec
           geom_line() +
           theme_minimal() +
           facet_wrap(~site) +
-          theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-          theme(axis.text.y = element_text(size = 5))
+          theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 5)) +
+          theme(axis.text.y = element_text(size = 5)) +
+          scale_y_reverse()
         ```
 
 -   Description of the results of this analysis
