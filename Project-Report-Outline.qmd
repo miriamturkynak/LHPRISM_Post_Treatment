@@ -177,6 +177,7 @@ USDA Natural Resources Conservation Service. (2024). *PLANTS database*. <https:/
 -   This will be done on a subset of species
 
     -   How did we choose these species?
+        -   these species were chosen in part because LHPRISM believes eradication is possible and for some of these species like Giant Hogweed, specific traits that are hazardous to humans were also taken into account.
     -   Brief overview of ecology of these particular species
 
 -   Description of the methods used in this analysis
@@ -238,10 +239,44 @@ USDA Natural Resources Conservation Service. (2024). *PLANTS database*. <https:/
     -   how many times did they need to visit a plot before eradication: look at total number of visits, and population numbers
 
         ```{r}
+        library(dplyr)
+        library(ggplot2)
+
         ##HEMA17 population by site and visit_status_num
         hogweed_pop <- lhprism_data %>%
           filter(species_code == "HEMA17") %>%
           arrange(site, desc(plant_count)) %>%
+          select(site, visit_date, visit_status_num, plant_count, gross_treat_sqft)
+
+        #plotting visit_status_num across time
+        ggplot(data = hogweed_pop, aes(x = visit_date, y = visit_status_num, color = site)) +
+          geom_line() +
+          theme_minimal() +
+          facet_wrap(~site) +
+          theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 5)) +
+          theme(axis.text.y = element_text(size = 5)) +
+          scale_y_reverse()
+        ```
+
+        ```{r}
+        ##PUMO population by site and visit_status_num
+        jknotweed_pop <- lhprism_data %>%
+          filter(species_code == "PUMO") %>%
+          arrange(site, desc(plant_count)) %>%
+          select(site, visit_date, visit_status_num, plant_count, gross_treat_sqft)
+
+        #PUMO visit_status_num over time
+        ggplot(data = jknotweed_pop, aes(x = visit_date, y = visit_status_num, color = site)) +
+          geom_line() +
+          theme_minimal() +
+          facet_wrap(~site) +
+          theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 5)) +
+          theme(axis.text.y = element_text(size = 5)) +
+          scale_y_reverse()
+
+        ##plant_count at each status level
+        ##days/visits until new status, also days until relapse?
+          
           select(site, visit_date, visit_status_num, plant_count)
 
         ```
@@ -268,6 +303,18 @@ USDA Natural Resources Conservation Service. (2024). *PLANTS database*. <https:/
           filter(species_code == "SAGL12") %>%
           arrange(site, desc(plant_count)) %>%
           select(site, visit_date, visit_status_num, plant_count)
+
+        #PUMO visit_status_num over time
+        ggplot(data = stickysage_pop, aes(x = visit_date, y = visit_status_num, color = site)) +
+          geom_line() +
+          theme_minimal() +
+          facet_wrap(~site) +
+          theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 5)) +
+          theme(axis.text.y = element_text(size = 5)) +
+          scale_y_reverse()
+        ```
+
+-   Description of the results of this analysis
         ```
 -   How Many site codes have been Eradicated (5)
 
@@ -314,35 +361,3 @@ lhprism_treated
 
 
 ## Conclusions and recommendations
-
-
-
-## References
-
-Gentili, R., et al. (2021). *Invasive alien species and ecosystem services: A systematic review*. **Global Ecology and Conservation**.\
-<https://www.sciencedirect.com/science/article/pii/S235198942100007X>
-
-Mack, R. N., et al. (2000). *Biotic invasions: Causes, epidemiology, global consequences, and control*. **Ecological Applications**.\
-https://esajournals.onlinelibrary.wiley.com/doi/10.1890/1051-0761(2000)010\[0689:BICEGC\]2.0.CO;2
-
-Diagne, C., et al. (2021). *High and rising economic costs of biological invasions worldwide*. **Nature**.\
-<https://www.nature.com/articles/s41586-021-03405-6>
-
-Leung, B., et al. (2002). *An ounce of prevention or a pound of cure: Bioeconomic risk analysis of invasive species*. **Proceedings of the Royal Society B**.\
-<https://royalsocietypublishing.org/doi/10.1098/rspb.2002.2179>
-
-[United States Department of Agriculture]{.underline}. (2024). ***Invasive Species***.\
-<https://www.usda.gov/topics/invasive-species>
-
-[New York State Department of Environmental Conservation]{.underline}. (2024). ***Invasive Species*****.**\
-<https://dec.ny.gov/nature/invasive-species>
-
-[New York State Department of Environmental Conservation]{.underline}. (2016). ***Partnerships for Regional Invasive Species Management (PRISM)*****.**\
-[https://dec.ny.gov/nature/animals-fish-plants/invasive-species/resources-regulations/invasive-species-partners](https://dec.ny.gov/nature/animals-fish-plants/invasive-species/resources-regulations/invasive-species-partners?utm_source=chatgpt.com)
-
-[New York Natural Heritage Program]{.underline}. (2024). ***Invasive Species Tiered Ranking System*****.**\
-<https://www.nynhp.org/invasives/species-tiers-table/>
-
-Finley, D., Dovciak, M., & Dean, J. (2023). *A data-driven method for prioritizing invasive species to aid policy and management*. **Biological Invasions**.\
-<https://link.springer.com/article/10.1007/s10530-023-03041-3>
-
