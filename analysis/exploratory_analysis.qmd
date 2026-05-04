@@ -63,6 +63,12 @@ lhprism_data$site <- str_extract(lhprism_data$site_code, "^[^_]+")
 lhprism_data <- lhprism_data %>%
   filter(!is.na(site))
 
+# Make a column for number of visits for each Site Code.
+lhprism_data <- lhprism_data %>%
+  group_by(site_code) %>%
+  mutate(tot_visits = length(unique(visit_date)))
+
+
 ```
 
 ## Figures
@@ -129,7 +135,6 @@ ggplot(data = lhprism_data, aes(x = pu_count)) +
   scale_x_log10()
 ```
 
-
 Let's create a new variable that is the log10 of the pull-up count
 
 ```{r}
@@ -163,7 +168,6 @@ median(lhprism_data$pu_count, na.rm = TRUE)
 
 ```
 
-
 Is this different than what a group a volunteers may be able to pull-up in a day?
 
 ```{r}
@@ -181,9 +185,6 @@ What is the probability of observing our mean or something more extreme?
 ```{r}
 2 * pnorm(q = abs((volunteer_pu_count - log_pu_count_mean) / log_pu_count_sd), lower.tail = FALSE)
 ```
-
-
-
 
 ### Relationship between gross square feet searched vs treated
 
@@ -264,3 +265,87 @@ lhprism_data %>%
   ) %>%
   arrange(desc(total_visits))
 ```
+
+## Change through time
+
+First, let's find out which species were noted as eradicated. Note that eradicated is considered any site that has no target plants found upon search on the third year after treatment, which corresponds to a `visit_status_num` value of 5.
+
+There are `r length(unique(lhprism_data$species_code))` unique species codes in the data set.
+
+Of these, only three have any populations that were eradicated.
+
+```{r}
+unique(lhprism_data$species_code) # 85
+
+lhprism_data %>%
+  filter(visit_status_num == 5) %>%
+  select(species_code) %>%
+  unique()
+```
+
+Let's get some summaries.
+
+```{r}
+lhprism_data %>%
+  filter(!is.na(species_code)) %>%
+  group_by(species_code) %>%
+  summarise(
+    unique_populations = n_distinct(site_code),
+    total_visits = n(),
+    highest_visit_status = max(visit_status_num, na.rm = TRUE)
+  ) %>%
+  arrange(desc(total_visits))
+```
+
+
+## Practice ANOVA
+
+
+```{r}
+focal_spec <- c("CYSC4", "AREL8", "PUMO", "SAGL12", "HEMA17")
+
+lhprism_data %>%
+  filter(species_code %in% focal_spec) %>%
+  ggplot(data = ., aes(x = species_code, y = log_pu_count)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2, alpha =0.4) +
+  scale_fill_manual(values = cbPalette) +
+  xlab("Species Code") +
+  ylab("Log10 Pull-up Count") +
+  theme_minimal()
+
+focal_spec_lm <-
+  lhprism_data %>%
+  filter(species_code %in% focal_spec) %>%
+  lm(log_pu_count ~ species_code, data = .) 
+
+summary(focal_spec_lm)
+anova(focal_spec_lm)
+```
+
+**Critical thinking question:** Considering the assumptions of ANOVA (normality, homogeneity of variance, independence), do you think this is an appropriate test to use for this data set? Why or why not? If not, what other test(s) might be more appropriate?
+
+
+## Practice linear regression
+
+```{r}
+# examine relationship between visit_status_num and gross_sqft
+ggplot(data = lhprism_data, aes(x = gross_sqft, y = gross_treat_sqft)) +
+  geom_point() +
+  scale_y_log10() +
+  scale_x_log10() +
+  geom_smooth(method = "lm", se = FALSE, color = "red")
+
+# fit a linear regression model
+lm_model <- lm( log10(gross_treat_sqft + 0.1) ~ log10(gross_sqft +0.1), data = lhprism_data)
+summary(lm_model)
+```
+
+
+```{r}
+# example of a situation where regression *could* be used, but quantile regression might be more appropriate
+ggplot(data = lhprism_data, aes(x = gross_sqft, y = log_pu_count)) +
+  geom_point() +
+  scale_x_log10()
+```
+
