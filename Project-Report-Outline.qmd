@@ -155,7 +155,6 @@ The Lower Hudson region falls within the Eastern Temperate Forest biome and supp
 
 The Lower Hudson region presents an ideal study area for analyzing invasive species distribution patterns given its unique combination of ecological diversity, landscape heterogeneity, and anthropogenic pressure. The juxtaposition of urban and natural land cover types creates conditions highly conducive to invasive species introduction, as disturbance-adapted non-native plants readily exploit habitat edges, degraded areas, and human-modified landscapes [@lhprism2024; @nysdec2024]. The dataset employed in this study, compiled through field surveys conducted by the Invasives Strike Force under the coordination of LH PRISM, provides spatially explicit records of invasive plant populations across a broad range of property types within this region. Species identifications in the dataset are standardized using codes from the USDA PLANTS Database, ensuring taxonomic consistency across observation records [@usda2024]. Together, the ecological characteristics of the Lower Hudson region and the availability of a robust regional dataset make this an appropriate and well-suited geographic context for the analyses undertaken in this project.
 
-
 ## Overview of the LHPRISM data set
 
 -   Description of the data set and its contents
@@ -315,4 +314,3 @@ The Lower Hudson region presents an ideal study area for analyzing invasive spec
         ```
 
 ## Conclusions and recommendations
-
